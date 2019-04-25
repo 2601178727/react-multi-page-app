@@ -43,7 +43,12 @@ module.exports = (env, argv) => ({
 			},
 			{
 				test: /\.css$/,
-				use: ["style-loader", "css-loader"],
+				use: ["style-loader", "css-loader?importLoaders=1", "postcss-loader", "less-loader"],
+				exclude: /node_modules/,
+			},
+			{
+				test: /\.less$/,
+				use: ["style-loader", "css-loader", "less-loader"],
 				exclude: /node_modules/,
 			},
 			{
@@ -51,6 +56,7 @@ module.exports = (env, argv) => ({
 				use: [
 					argv.mode == "development" ? { loader: "style-loader"} :MiniCssExtractPlugin.loader,
 					{ loader: "css-loader", options: { url: false, sourceMap: true } },
+					{ loader: "postcss-loader", options: { sourceMap: true } },
 					{ loader: "sass-loader", options: { sourceMap: true } }
 				],
 				exclude: /node_modules/,
